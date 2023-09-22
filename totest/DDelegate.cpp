@@ -1,7 +1,5 @@
-#include "DDelegateAction.h"
+#include "DDelegateAction.cpp"
 #include "DLinkedList.cpp"
-#include <stdlib.h>
-
 
 
 /// <summary>
@@ -22,6 +20,10 @@ public:
 	{
 		delete actionList;
 	}
+	DDelegate(DDelegate& original)
+	{
+		
+	} // TODO
 
 	/// <summary>
 	/// Fires all subscribed function
@@ -34,7 +36,7 @@ public:
 		{
 			actionList->SeekToIndex(i);
 			Return r = actionList->currentElement->data->Fire(p...);
-			if (is_pointer<r>())
+			if (is_pointer<Return>())
 			{
 				delete r;
 			}
@@ -55,7 +57,7 @@ public:
 			if (actionList->currentElement->data->ID == ID)
 			{
 				Return r = actionList->currentElement->data->Fire(p...);
-				if (is_pointer<r>())
+				if (is_pointer<Return>())
 				{
 					delete r;
 				}
@@ -147,7 +149,7 @@ public:
 		for (int i = actionList->Count() - 1; i >= 0; i--)
 		{
 			actionList->SeekToIndex(i);
-			if (function == actionList->currentElement->data->functionPointer)
+			if (functionPointer == actionList->currentElement->data->functionPointer)
 			{
 				actionList->RemoveCurrent();
 			}
@@ -477,8 +479,14 @@ public:
 	}
 	~DDelegate()
 	{
+		actionList->Empty(true);
 		delete actionList;
 	}
+	DDelegate(DDelegate& original)
+	{
+
+	} // TODO
+
 
 	/// <summary>
 	/// Fires all subscribed function
@@ -519,9 +527,9 @@ public:
 	/// </summary>
 	/// <param name="function">The pointer to the function</param>
 	/// <returns>Whether the subscription was sucessful</returns>
-	bool Subscribe(Return(*function)(Params...))
+	bool Subscribe(void(*functionPointer)(Params...))
 	{
-		DDelegateAction<Return, Params...>* tmp = new DDelegateAction<Return, Params...>(function);
+		DDelegateAction<void, Params...>* tmp = new DDelegateAction<void, Params...>(functionPointer);
 		if (tmp != nullptr)
 		{
 			actionList->PushLast(tmp);
@@ -536,9 +544,9 @@ public:
 	/// <param name="function">The pointer to the function</param>
 	/// <param name="id">ID of function</param>
 	/// <returns>Whether the subscription was sucessful</returns>
-	bool Subscribe(Return(*function)(Params...), int id)
+	bool Subscribe(void(*functionPointer)(Params...), int id)
 	{
-		DDelegateAction<Return, Params...>* tmp = new DDelegateAction<Return, Params...>(function, id);
+		DDelegateAction<void, Params...>* tmp = new DDelegateAction<void, Params...>(functionPointer, id);
 		if (tmp != nullptr)
 		{
 			actionList->PushLast(tmp);
@@ -551,13 +559,14 @@ public:
 	/// Unsubrscribes all occurences of the specified function
 	/// </summary>
 	/// <param name="functionPointer">Function to remove from the delegate</param>
-	void Unsubrscribe(Return(*functionPointer)(Params...))
+	void Unsubrscribe(void(*functionPointer)(Params...))
 	{
 		for (int i = actionList->Count() - 1; i >= 0; i--)
 		{
 			actionList->SeekToIndex(i);
-			if (function == actionList->currentElement->data->functionPointer)
+			if (functionPointer == actionList->currentElement->data->functionPointer)
 			{
+				delete actionList->currentElement->data;
 				actionList->RemoveCurrent();
 			}
 		}
@@ -574,6 +583,7 @@ public:
 			actionList->SeekToIndex(i);
 			if (ID == actionList->currentElement->data->ID)
 			{
+				delete actionList->currentElement->data;
 				actionList->RemoveCurrent();
 			}
 		}
