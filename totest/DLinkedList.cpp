@@ -321,7 +321,7 @@ public:
 		}
 		count--;
 		SeekToIndex(revert);
-	} //TODO: break
+	}
 
 	/// <summary>
 	/// Removes current element and moves items forward
@@ -339,7 +339,7 @@ public:
 		}
 		else if (currentIndex == 0)
 		{
-			currentElement = currentElement->nextElement;
+			currentElement = currentElement->nextElement;			
 			delete firstElement;
 			firstElement = currentElement;
 			currentElement->previousElement = nullptr;
@@ -400,7 +400,6 @@ public:
 			delete(firstElement);
 			firstElement = tmp;
 		}
-		firstElement = nullptr;
 		lastElement = nullptr;
 		currentElement = nullptr;
 		currentIndex = 0;
@@ -821,7 +820,7 @@ public:
 			tmp = firstElement->nextElement;
 			if (deleteItem)
 			{
-				delete(firstElement->data);
+				firstElement->Delete();
 			}
 			delete(firstElement);
 			firstElement = tmp;

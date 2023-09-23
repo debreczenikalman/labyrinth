@@ -36,6 +36,12 @@ public:
 
 	}
 
+	DDelegateAction<Return, Params...>* operator=(DDelegateAction<Return, Params...>& original)
+	{
+		return original;
+	}
+
+
 	/// <summary>
 	/// Calls the function
 	/// </summary>

@@ -26,17 +26,15 @@ public:
 	/// </summary>
 	void Delete()
 	{
-		data = NULL;
+		// data = NULL;
 	}
 
 	/// <summary>
 	/// Default constructor
 	/// </summary>
-	DLinkedListNode()
+	DLinkedListNode(): data(0), nextElement(nullptr), previousElement(nullptr)
 	{
-		data = 0;
-		nextElement = nullptr;
-		previousElement = nullptr;
+
 	}
 
 	/// <summary>
@@ -54,6 +52,8 @@ public:
 	{
 
 	}
+
+
 
 private:
 
@@ -94,11 +94,9 @@ public:
 	/// <summary>
 	/// Default constructor
 	/// </summary>
-	DLinkedListNode()
+	DLinkedListNode() : data(0), nextElement(nullptr), previousElement(nullptr)
 	{
-		data = 0;
-		nextElement = nullptr;
-		previousElement = nullptr;
+
 	}
 
 	/// <summary>
@@ -117,6 +115,7 @@ public:
 
 	}
 
+
 private:
 
 };
@@ -125,8 +124,8 @@ private:
 /// The elements of which the DLinkedList is made up
 /// </summary>
 /// <typeparam name="T">Any</typeparam>
-template <typename T>
-class DLinkedListNode<T[]>
+template <typename T, size_t N>
+class DLinkedListNode<T[N]>
 {
 public:
 	/// <summary>
@@ -149,34 +148,35 @@ public:
 	/// </summary>
 	void Delete()
 	{
-		delete[] data;
+		// delete[] data;
 	}
 
 	/// <summary>
 	/// Default constructor
 	/// </summary>
-	DLinkedListNode()
+	DLinkedListNode() : data(0), nextElement(nullptr), previousElement(nullptr)
 	{
-		data = 0;
-		nextElement = nullptr;
-		previousElement = nullptr;
+
 	}
 
 	/// <summary>
 	/// Constructor with definable data as parameter
 	/// </summary>
 	/// <param name="data">Data to be stored</param>	
-	explicit DLinkedListNode(T data)
+	explicit DLinkedListNode(T data): nextElement(nullptr), previousElement(nullptr)
 	{
-		this->data = data;
-		nextElement = nullptr;
-		previousElement = nullptr;
+		for (int i = 0; i < sizeof(data) / sizeof(data[0]); i++)
+		{
+			this->data[i] = data[i];
+
+		}
 	}
 
 	~DLinkedListNode()
 	{
 
 	}
+
 
 private:
 
