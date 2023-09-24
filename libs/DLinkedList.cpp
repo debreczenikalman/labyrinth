@@ -395,7 +395,7 @@ public:
 			tmp = firstElement->nextElement;
 			if (deleteItem)
 			{
-				currentElement->Delete();
+				firstElement->Delete();
 			}
 			delete(firstElement);
 			firstElement = tmp;

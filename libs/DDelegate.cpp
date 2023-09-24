@@ -18,15 +18,15 @@ public:
 	}
 	~DDelegate()
 	{
+		actionList->Empty(true);
 		delete actionList;
 	}
-	DDelegate(DDelegate& original)
-	{
 
-	} // TODO
+	DDelegate<Return, Params...>(DDelegate<Return, Params...>& original); // TODO
+	DDelegate operator=(DDelegate<Return, Params...>& original); // TODO
 
 	/// <summary>
-	/// Fires all subscribed function
+	/// Fires all subscribed function. Does not handle the returned value, may cause memory leak. If that happens, use Fire() instead
 	/// </summary>
 	/// <param name="...p">Arguments for every function to use</param>
 	void FireAllWithoutReturn(Params... p)
@@ -35,17 +35,17 @@ public:
 		for (int i = 0; i < actionList->Count(); i++)
 		{
 			actionList->SeekToIndex(i);
-			actionList->currentElement->data.Fire(p...);			
+			actionList->currentElement->data->Fire(p...);
 		}
 		actionList->SeekToIndex(0);
 	}
 
 	/// <summary>
-	/// Fires all functions with specified ID
+	/// Fires all functions with specified ID. Does not handle the returned value, may cause memory leak. If that happens, use Fire() instead
 	/// </summary>
 	/// <param name="...p">Arguments for every function to use</param>
 	/// <param name="ID">ID filter</param>
-	void FireAllWithoutReturns(Params... p, int ID)
+	void FireAllWithoutReturn(Params... p, int ID)
 	{
 		for (int i = 0; i < actionList->Count(); i++)
 		{
@@ -66,7 +66,7 @@ public:
 	/// <returns>The reurned value of each function</returns>
 	Return* FireAll(Params... p)
 	{
-		Return* retArray = (Return*)calloc(actionList->Count(), sizeof(Return*));
+		Return* retArray = (Return*)calloc(actionList->Count(), sizeof(Return));
 		for (int i = 0; i < actionList->Count(); i++)
 		{
 			actionList->SeekToIndex(i);
@@ -85,7 +85,7 @@ public:
 	/// <returns>The reurned value of each function</returns>
 	Return* FireAll(Params... p, int ID)
 	{
-		Return* retArray = (Return*)calloc(actionList->Count(), sizeof(Return*));
+		Return* retArray = (Return*)calloc(actionList->Count(), sizeof(Return));
 		for (int i = 0; i < actionList->Count(); i++)
 		{
 			actionList->SeekToIndex(i);
@@ -164,6 +164,13 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Unsubscribes every delegated function
+	/// </summary>
+	void UnsubscribeAll()
+	{
+		actionList->Empty(true);
+	}
 
 
 	DLinkedList<DDelegateAction<Return, Params...>*>* actionList;
@@ -188,10 +195,9 @@ public:
 		actionList->Empty(true);
 		delete actionList;
 	}
-	DDelegate(DDelegate& original)
-	{
-
-	} // TODO
+	
+	DDelegate<Return, Params...>(DDelegate<void, Params...>& original); // TODO
+	DDelegate operator=(DDelegate<void, Params...>& original); // TODO
 
 
 	/// <summary>
@@ -343,7 +349,7 @@ private:
 //	/// </summary>
 //	/// <param name="...p">Arguments for every function to use</param>
 //	/// <param name="ID">ID filter</param>
-//	void FireAllWithoutReturns(Params... p, int ID)
+//	void FireAllWithoutReturn(Params... p, int ID)
 //	{
 //		for (int i = 0; i < actionList->Count(); i++)
 //		{
