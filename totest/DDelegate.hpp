@@ -11,6 +11,7 @@
 template <class Return, class... Params>
 class DDelegate
 {
+public:
 	DDelegate();
 	~DDelegate();
 
@@ -83,6 +84,7 @@ class DDelegate
 template <class ...Params>
 class DDelegate<void, Params...>
 {
+public:
 	DDelegate();
 	~DDelegate();
 

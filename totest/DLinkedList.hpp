@@ -109,7 +109,7 @@ public:
 	/// <summary>
 	/// Empties the list
 	/// </summary>
-	/// <param name="deleteItem">Whejter to delete the stored value or not</param>
+	/// <param name="deleteItem">Whether to delete the stored value or not</param>
 	void Empty(bool deleteItem = false);
 
 
@@ -126,3 +126,6 @@ private:
 	bool FirstPush(T data);
 
 };
+
+
+// #include "DLinkedList.cpp" Ez sem jó

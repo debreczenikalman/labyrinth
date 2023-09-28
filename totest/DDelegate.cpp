@@ -9,69 +9,69 @@
 template <class Return, class... Params>
 DDelegate<Return, Params...>::DDelegate()
 {
-	DDelegate<Return, Params...>::DDelegate<Return, Params...>::actionList = new DLinkedList<DDelegateAction<Return, Params>*>();
+	actionList = new DLinkedList<DDelegateAction<Return, Params...>*>();
 }
 
 template <class Return, class... Params>
 DDelegate<Return, Params...>::~DDelegate()
 {
-	DDelegate<Return, Params...>::DDelegate<Return, Params...>::actionList->Empty(true);
-	delete DDelegate<Return, Params...>::DDelegate<Return, Params...>::actionList;
+	actionList->Empty(true);
+	delete actionList;
 }
 
 template <class Return, class... Params>
 void DDelegate<Return, Params...>::FireAllWithoutReturn(Params... p)
 {
 
-	for (int i = 0; i < DDelegate<Return, Params...>::DDelegate<Return, Params...>::actionList->Count(); i++)
+	for (int i = 0; i < actionList->Count(); i++)
 	{
-		DDelegate<Return, Params...>::DDelegate<Return, Params...>::actionList->SeekToIndex(i);
-		DDelegate<Return, Params...>::actionList->currentElement->data->Fire(p);
+		actionList->SeekToIndex(i);
+		actionList->currentElement->data->Fire(p...);
 	}
-	DDelegate<Return, Params...>::actionList->SeekToIndex(0);
+	actionList->SeekToIndex(0);
 }
 
 template <class Return, class... Params>
 void DDelegate<Return, Params...>::FireAllWithoutReturn(Params... p, int ID)
 {
-	for (int i = 0; i < DDelegate<Return, Params...>::actionList->Count(); i++)
+	for (int i = 0; i < actionList->Count(); i++)
 	{
-		DDelegate<Return, Params...>::actionList->SeekToIndex(i);
-		if (DDelegate<Return, Params...>::actionList->currentElement->data->ID == ID)
+		actionList->SeekToIndex(i);
+		if (actionList->currentElement->data->ID == ID)
 		{
-			Return r = DDelegate<Return, Params...>::actionList->currentElement->data->Fire(p...);
+			Return r = actionList->currentElement->data->Fire(p...);
 		}
 	}
-	DDelegate<Return, Params...>::actionList->SeekToIndex(0);
+	actionList->SeekToIndex(0);
 }
 
 template <class Return, class... Params>
 Return* DDelegate<Return, Params...>::FireAll(Params... p)
 {
-	Return* retArray = (Return*)calloc(DDelegate<Return, Params...>::actionList->Count(), sizeof(Return));
-	for (int i = 0; i < DDelegate<Return, Params...>::actionList->Count(); i++)
+	Return* retArray = (Return*)calloc(actionList->Count(), sizeof(Return));
+	for (int i = 0; i < actionList->Count(); i++)
 	{
-		DDelegate<Return, Params...>::actionList->SeekToIndex(i);
-		retArray[i] = DDelegate<Return, Params...>::actionList->currentElement->data->Fire(p...);
+		actionList->SeekToIndex(i);
+		retArray[i] = actionList->currentElement->data->Fire(p...);
 
 	}
-	DDelegate<Return, Params...>::actionList->SeekToIndex(0);
+	actionList->SeekToIndex(0);
 	return retArray;
 }
 
 template <class Return, class... Params>
 Return* DDelegate<Return, Params...>::FireAll(Params... p, int ID)
 {
-	Return* retArray = (Return*)calloc(DDelegate<Return, Params...>::actionList->Count(), sizeof(Return));
-	for (int i = 0; i < DDelegate<Return, Params...>::actionList->Count(); i++)
+	Return* retArray = (Return*)calloc(actionList->Count(), sizeof(Return));
+	for (int i = 0; i < actionList->Count(); i++)
 	{
-		DDelegate<Return, Params...>::actionList->SeekToIndex(i);
-		if (DDelegate<Return, Params...>::actionList->currentElement->data->ID == ID)
+		actionList->SeekToIndex(i);
+		if (actionList->currentElement->data->ID == ID)
 		{
-			retArray[i] = DDelegate<Return, Params...>::actionList->currentElement->data->Fire(p...);
+			retArray[i] = actionList->currentElement->data->Fire(p...);
 		}
 	}
-	DDelegate<Return, Params...>::actionList->SeekToIndex(0);
+	actionList->SeekToIndex(0);
 	return retArray;
 }
 
@@ -81,7 +81,7 @@ bool DDelegate<Return, Params...>::Subscribe(Return(*function)(Params...))
 	DDelegateAction<Return, Params...>* tmp = new DDelegateAction<Return, Params...>(function);
 	if (tmp != nullptr)
 	{
-		DDelegate<Return, Params...>::actionList->PushLast(tmp);
+		actionList->PushLast(tmp);
 		return true;
 	}
 	else return false;
@@ -93,7 +93,7 @@ bool DDelegate<Return, Params...>::Subscribe(Return(*function)(Params...), int i
 	DDelegateAction<Return, Params...>* tmp = new DDelegateAction<Return, Params...>(function, id);
 	if (tmp != nullptr)
 	{
-		DDelegate<Return, Params...>::actionList->PushLast(tmp);
+		actionList->PushLast(tmp);
 		return true;
 	}
 	else return false;
@@ -102,12 +102,12 @@ bool DDelegate<Return, Params...>::Subscribe(Return(*function)(Params...), int i
 template <class Return, class... Params>
 void DDelegate<Return, Params...>::Unsubscribe(Return(*functionPointer)(Params...))
 {
-	for (int i = DDelegate<Return, Params...>::actionList->Count() - 1; i >= 0; i--)
+	for (int i = actionList->Count() - 1; i >= 0; i--)
 	{
-		DDelegate<Return, Params...>::actionList->SeekToIndex(i);
-		if (functionPointer == DDelegate<Return, Params...>::actionList->currentElement->data->functionPointer)
+		actionList->SeekToIndex(i);
+		if (functionPointer == actionList->currentElement->data->functionPointer)
 		{
-			DDelegate<Return, Params...>::actionList->RemoveCurrent();
+			actionList->RemoveCurrent();
 		}
 	}
 }
@@ -115,12 +115,12 @@ void DDelegate<Return, Params...>::Unsubscribe(Return(*functionPointer)(Params..
 template <class Return, class... Params>
 void DDelegate<Return, Params...>::Unsubscribe(int ID)
 {
-	for (int i = DDelegate<Return, Params...>::actionList->Count() - 1; i >= 0; i--)
+	for (int i = actionList->Count() - 1; i >= 0; i--)
 	{
-		DDelegate<Return, Params...>::actionList->SeekToIndex(i);
-		if (ID == DDelegate<Return, Params...>::actionList->currentElement->data.ID)
+		actionList->SeekToIndex(i);
+		if (ID == actionList->currentElement->data.ID)
 		{
-			DDelegate<Return, Params...>::actionList->RemoveCurrent();
+			actionList->RemoveCurrent();
 		}
 	}
 }
@@ -128,11 +128,11 @@ void DDelegate<Return, Params...>::Unsubscribe(int ID)
 template <class Return, class... Params>
 void DDelegate<Return, Params...>::UnsubrscribeAll()
 {
-	for (int i = DDelegate<Return, Params...>::actionList->Count() - 1; i >= 0; i--)
+	for (int i = actionList->Count() - 1; i >= 0; i--)
 	{
-		DDelegate<Return, Params...>::actionList->SeekToIndex(i);
-		delete DDelegate<Return, Params...>::actionList->currentElement->data;
-		DDelegate<Return, Params...>::actionList->RemoveCurrent();
+		actionList->SeekToIndex(i);
+		delete actionList->currentElement->data;
+		actionList->RemoveCurrent();
 
 	}
 }
@@ -143,14 +143,14 @@ void DDelegate<Return, Params...>::UnsubrscribeAll()
 template <class... Params>
 DDelegate<void, Params...>::DDelegate()
 {
-	DDelegate<void, Params...>::actionList = new DLinkedList<DDelegateAction<void, Params...>*>();
+	actionList = new DLinkedList<DDelegateAction<void, Params...>*>();
 }
 
 template <class... Params>
 DDelegate<void, Params...>::~DDelegate()
 {
-	DDelegate<void, Params...>::actionList->Empty(true);
-	delete DDelegate<void, Params...>::actionList;
+	actionList->Empty(true);
+	delete actionList;
 }
 
 
@@ -159,27 +159,27 @@ template <class... Params>
 void DDelegate<void, Params...>::FireAllWithoutReturn(Params... p)
 {
 
-	for (int i = 0; i < DDelegate<void, Params...>::actionList->Count(); i++)
+	for (int i = 0; i < actionList->Count(); i++)
 	{
-		DDelegate<void, Params...>::actionList->SeekToIndex(i);
-		DDelegate<void, Params...>::actionList->currentElement->data->Fire(p...);
+		actionList->SeekToIndex(i);
+		actionList->currentElement->data->Fire(p...);
 
 	}
-	DDelegate<void, Params...>::actionList->SeekToIndex(0);
+	actionList->SeekToIndex(0);
 }
 
 template <class... Params>
 void DDelegate<void, Params...>::FireAllWithoutReturn(Params... p, int ID)
 {
-	for (int i = 0; i < DDelegate<void, Params...>::actionList->Count(); i++)
+	for (int i = 0; i < actionList->Count(); i++)
 	{
-		DDelegate<void, Params...>::actionList->SeekToIndex(i);
-		if (DDelegate<void, Params...>::actionList->currentElement->data->ID == ID)
+		actionList->SeekToIndex(i);
+		if (actionList->currentElement->data->ID == ID)
 		{
-			DDelegate<void, Params...>::actionList->currentElement->data->Fire(p...);
+			actionList->currentElement->data->Fire(p...);
 		}
 	}
-	DDelegate<void, Params...>::actionList->SeekToIndex(0);
+	actionList->SeekToIndex(0);
 }
 
 
@@ -189,7 +189,7 @@ bool DDelegate<void, Params...>::Subscribe(void(*functionPointer)(Params...))
 	DDelegateAction<void, Params...>* tmp = new DDelegateAction<void, Params...>(functionPointer);
 	if (tmp != nullptr)
 	{
-		DDelegate<void, Params...>::actionList->PushLast(tmp);
+		actionList->PushLast(tmp);
 		return true;
 	}
 	else return false;
@@ -202,7 +202,7 @@ bool DDelegate<void, Params...>::Subscribe(void(*functionPointer)(Params...), in
 	DDelegateAction<void, Params...>* tmp = new DDelegateAction<void, Params...>(functionPointer, id);
 	if (tmp != nullptr)
 	{
-		DDelegate<void, Params...>::actionList->PushLast(tmp);
+		actionList->PushLast(tmp);
 		return true;
 	}
 	else return false;
@@ -212,13 +212,13 @@ bool DDelegate<void, Params...>::Subscribe(void(*functionPointer)(Params...), in
 template <class... Params>
 void DDelegate<void, Params...>::Unsubscribe(void(*functionPointer)(Params...))
 {
-	for (int i = DDelegate<void, Params...>::actionList->Count() - 1; i >= 0; i--)
+	for (int i = actionList->Count() - 1; i >= 0; i--)
 	{
-		DDelegate<void, Params...>::actionList->SeekToIndex(i);
-		if (functionPointer == DDelegate<void, Params...>::actionList->currentElement->data->functionPointer)
+		actionList->SeekToIndex(i);
+		if (functionPointer == actionList->currentElement->data->functionPointer)
 		{
-			delete DDelegate<void, Params...>::actionList->currentElement->data;
-			DDelegate<void, Params...>::actionList->RemoveCurrent();
+			delete actionList->currentElement->data;
+			actionList->RemoveCurrent();
 		}
 	}
 }
@@ -227,13 +227,13 @@ void DDelegate<void, Params...>::Unsubscribe(void(*functionPointer)(Params...))
 template <class... Params>
 void DDelegate<void, Params...>::Unsubscribe(int ID)
 {
-	for (int i = DDelegate<void, Params...>::actionList->Count() - 1; i >= 0; i--)
+	for (int i = actionList->Count() - 1; i >= 0; i--)
 	{
-		DDelegate<void, Params...>::actionList->SeekToIndex(i);
-		if (ID == DDelegate<void, Params...>::actionList->currentElement->data->ID)
+		actionList->SeekToIndex(i);
+		if (ID == actionList->currentElement->data->ID)
 		{
-			delete DDelegate<void, Params...>::actionList->currentElement->data;
-			DDelegate<void, Params...>::actionList->RemoveCurrent();
+			delete actionList->currentElement->data;
+			actionList->RemoveCurrent();
 		}
 	}
 }
@@ -242,11 +242,11 @@ void DDelegate<void, Params...>::Unsubscribe(int ID)
 template <class... Params>
 void DDelegate<void, Params...>::UnsubrscribeAll()
 {
-	for (int i = DDelegate<void, Params...>::actionList->Count() - 1; i >= 0; i--)
+	for (int i = actionList->Count() - 1; i >= 0; i--)
 	{
-		DDelegate<void, Params...>::actionList->SeekToIndex(i);
-		delete DDelegate<void, Params...>::actionList->currentElement->data;
-		DDelegate<void, Params...>::actionList->RemoveCurrent();
+		actionList->SeekToIndex(i);
+		delete actionList->currentElement->data;
+		actionList->RemoveCurrent();
 
 	}
 }
