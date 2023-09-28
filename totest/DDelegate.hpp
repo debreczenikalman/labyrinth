@@ -139,3 +139,5 @@ public:
 
 	DLinkedList<DDelegateAction<void, Params...>*>* actionList;
 };
+
+#include "DDelegate.cpp"

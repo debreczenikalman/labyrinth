@@ -5,7 +5,6 @@
 
 #define DLINKED_LIST
 
-
 template<class T>
 DLinkedList<T>::DLinkedList()
 {

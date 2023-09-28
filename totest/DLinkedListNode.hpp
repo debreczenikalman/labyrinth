@@ -75,7 +75,7 @@ private:
 
 };
 
-template<class T, size_t N>
+template<class T, int N>
 class DLinkedListNode<T[N]>
 {
 public:
@@ -96,3 +96,5 @@ public:
 private:
 
 };
+
+#include "DLinkedListNode.cpp"

@@ -127,5 +127,4 @@ private:
 
 };
 
-
-// #include "DLinkedList.cpp" Ez sem jó
+#include "DLinkedList.cpp"
