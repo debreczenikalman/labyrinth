@@ -1,5 +1,4 @@
-#ifndef DLINKED_LIST_H
-#define DLINKED_LIST_H
+#pragma once
 
 #include "DLinkedListNode.hpp"
 
@@ -127,5 +126,3 @@ private:
 	bool FirstPush(T data);
 
 };
-
-#endif

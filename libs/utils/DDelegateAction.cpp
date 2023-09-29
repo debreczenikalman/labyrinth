@@ -1,5 +1,4 @@
-#ifndef DDELEGATE_ACTION
-#define DDELEGATE_ACTION
+#pragma once
 
 #include "DDelegateAction.hpp"
 
@@ -98,4 +97,4 @@ void DDelegateAction<void, Params...>::Fire(Params... p)
 	functionPointer(p...);
 }
 
-#endif
+

@@ -1,5 +1,4 @@
-#ifndef DDELEGATE_H
-#define DDELEGATE_H
+#pragma once
 
 #include "DDelegateAction.hpp"
 #include "DLinkedList.hpp"
@@ -140,5 +139,3 @@ public:
 
 	DLinkedList<DDelegateAction<void, Params...>*>* actionList;
 };
-
-#endif

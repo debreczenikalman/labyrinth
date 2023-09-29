@@ -1,5 +1,4 @@
-#ifndef DLINKED_LIST_NODE
-#define DLINKED_LIST_NODE
+#pragma once
 
 #include "DLinkedListNode.hpp"
 
@@ -98,6 +97,3 @@ DLinkedListNode<T[N]>::~DLinkedListNode()
 {
 
 }
-
-
-#endif

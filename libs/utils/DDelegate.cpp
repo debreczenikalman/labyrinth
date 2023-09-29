@@ -1,5 +1,4 @@
-#ifndef DDELEGATE
-#define DDELEGATE
+#pragma once
 
 #include "DDelegateAction.cpp"
 #include "DDelegate.hpp"
@@ -251,5 +250,3 @@ void DDelegate<void, Params...>::UnsubrscribeAll()
 	}
 }
 
-
-#endif

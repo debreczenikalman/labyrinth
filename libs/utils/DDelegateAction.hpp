@@ -1,5 +1,4 @@
-#ifndef DDELEGATE_ACTION_H
-#define DDELEGATE_ACTION_H
+#pragma once
 
 /// <summary>
 /// Delegate action, containing the pointer to a function and other information
@@ -57,6 +56,3 @@ public:
 
 private:
 };
-
-
-#endif

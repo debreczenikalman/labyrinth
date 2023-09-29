@@ -1,5 +1,4 @@
-#ifndef DLINKED_LIST_NODE_H
-#define DLINKED_LIST_NODE_H
+#pragma once
 
 /// <summary>
 /// The elements of which the DLinkedList is made up
@@ -97,5 +96,3 @@ public:
 private:
 
 };
-
-#endif

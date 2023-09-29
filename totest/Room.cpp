@@ -1,62 +1,49 @@
-#define MAX_NEIGHBOUR_COUNT 10
+#ifndef ROOM
+#define ROOM
 
+
+#include "Room.hpp"
 #include "Tile.cpp"
-#include "Passage.cpp"
 
-
-
-class Room
+Room::Room()
 {
-public:
-	Room()
+	this->height = 0;
+	this->width = 0;
+	tiles = nullptr;
+}
+Room::Room(int height, int width)
+{
+	this->height = height;
+	this->width = width;
+	tiles = new Tile * *[width];
+	for (int i = 0; i < width; i++)
 	{
-
-	}
-	Room(int height, int width)
-	{
-		tiles = new Tile**[width];
-		for (int i = 0; i < width; i++)
+		tiles[i] = new Tile * [height];
+		for (int j = 0; j < height; j++)
 		{
-			tiles[i] = new Tile * [height];
-			for (int j = 0; j < height; j++)
+			tiles[i][j] = new Tile(Tile::TileType::Floor, Point{ i, j });
+			if (i * j == 0 || i == width - 1 || j == height - 1)
 			{
-				tiles[i][j] = new Tile(Tile::TileType::Floor, Point{ i,j });
-				if (i * j == 0 || i == width - 1 || j == height - 1)
-				{
-					tiles[i][j]->SetTileType(Tile::TileType::Wall);
-				}
+				tiles[i][j]->SetTileType(Tile::TileType::Wall);
 			}
 		}
-
 	}
-	~Room()
+}
+Room::~Room()
+{
+	for (int i = 0; i < width; i++)
 	{
-		for (int i = 0; i < width; i++)
-		{
-			delete[] tiles[i];
-		}
-		delete[] tiles;
-		for (int i = 0; i < MAX_NEIGHBOUR_COUNT; i++)
-		{
-			delete passages[i];
-		}
+		delete[] tiles[i];
 	}
-	Tile*** GetTiles()
+	delete[] tiles;
+	for (int i = 0; i < MAX_NEIGHBOUR_COUNT; i++)
 	{
-		return tiles;
+		// delete passages[i];
 	}
-	
-	void AddPassage(Point loc, Room* destination)
-	{
-		passages[passagesCount++] = new Passage();
-	}
+}
+Tile*** Room::GetTiles()
+{
+	return tiles;
+}
 
-
-private:
-
-	Tile*** tiles;
-	// Room* neighbours[MAX_NEIGHBOUR_COUNT];
-	int passagesCount = 0;
-	Passage* passages[MAX_NEIGHBOUR_COUNT];
-	int width, height;
-};
+#endif

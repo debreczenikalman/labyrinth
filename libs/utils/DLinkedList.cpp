@@ -1,5 +1,4 @@
-#ifndef DLINKED_LIST
-#define DLINKED_LIST
+#pragma once
 
 #include <stdexcept>
 #include "DLinkedListNode.cpp"
@@ -378,5 +377,3 @@ bool DLinkedList<T>::FirstPush(T data)
 	else return false;
 }
 
-
-#endif
