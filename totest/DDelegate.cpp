@@ -1,9 +1,18 @@
 #ifndef DDELEGATE
 #define DDELEGATE
 
-#include "DDelegateAction.cpp"
 #include "DDelegate.hpp"
+
+#include "Platform.cpp"
+
+#ifdef LINUX
+#include "DDelegateAction.cpp"
 #include "DLinkedList.cpp"
+#endif
+#ifdef WINDOWS
+#include "DDelegateAction.cpp"
+#include "DLinkedList.cpp"
+#endif
 
 
 template <class Return, class... Params>

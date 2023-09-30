@@ -2,7 +2,15 @@
 #define TILE_H
 
 #include "Point.cpp"
+
+#include "Platform.cpp"
+
+#ifdef LINUX
 #include "DDelegate.hpp"
+#endif
+#ifdef WINDOWS
+#include "DDelegate.hpp"
+#endif
 
 class Tile
 {

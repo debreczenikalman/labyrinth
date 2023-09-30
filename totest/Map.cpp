@@ -2,8 +2,21 @@
 #define MAP
 
 #include "Map.hpp"
-#include "Room.cpp"
 
+#include "Platform.cpp"
+
+#ifdef LINUX
+#include "Room.hpp"
+#endif
+#ifdef WINDOWS
+#include "Room.cpp"
+#endif
+
+
+
+
+
+Map* Map::instPtr = nullptr;
 
 Map* Map::GetInstance(int roomsCount)
 {

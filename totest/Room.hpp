@@ -1,7 +1,16 @@
 #ifndef ROOM_H
 #define ROOM_H
 
+
+#include "Platform.cpp"
+
+#ifdef LINUX
 #include "Tile.hpp"
+#endif
+#ifdef WINDOWS
+#include "Tile.hpp"
+#endif
+
 #define MAX_NEIGHBOUR_COUNT 10
 
 class Room

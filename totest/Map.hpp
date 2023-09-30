@@ -1,7 +1,14 @@
 #ifndef MAP_H
 #define MAP_H
 
+#include "Platform.cpp"
+
+#ifdef LINUX
 #include "Room.hpp"
+#endif
+#ifdef WINDOWS
+#include "Room.hpp"
+#endif
 
 class Map
 {
@@ -22,7 +29,7 @@ private:
 	int roomsCount;
 };
 
-Map* Map::instPtr = nullptr;
+
 
 
 #endif

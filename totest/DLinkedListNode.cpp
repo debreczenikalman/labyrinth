@@ -3,10 +3,6 @@
 
 #include "DLinkedListNode.hpp"
 
-// #ifndef size_t
-// #define size_t int
-// #endif
-
 template <class T>
 DLinkedListNode<T>::DLinkedListNode() : data(0), nextElement(nullptr), previousElement(nullptr)
 {

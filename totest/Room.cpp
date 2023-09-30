@@ -1,9 +1,17 @@
 #ifndef ROOM
 #define ROOM
 
-
 #include "Room.hpp"
+
+#include "Platform.cpp"
+
+#ifdef LINUX
+#include "Tile.hpp"
+#endif
+#ifdef WINDOWS
 #include "Tile.cpp"
+#endif
+
 
 Room::Room()
 {

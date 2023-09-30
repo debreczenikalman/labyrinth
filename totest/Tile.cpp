@@ -1,9 +1,19 @@
 #ifndef TILE
 #define TILE
 
-#include "DDelegate.cpp"
-#include "Tile.hpp"
 #include "Point.cpp"
+
+#include "Platform.cpp"
+
+#include "Tile.hpp"
+
+#ifdef LINUX
+#include "DDelegate.cpp"
+#endif
+#ifdef WINDOWS
+#include "DDelegate.cpp"
+#endif
+
 
 
 
@@ -93,5 +103,6 @@ void Tile::InitDelegates()
 {
 	OnEnter = new DDelegate<void, Tile*>();
 }
+
 
 #endif

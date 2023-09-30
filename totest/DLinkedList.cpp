@@ -2,10 +2,17 @@
 #define DLINKED_LIST
 
 #include <stdexcept>
-#include "DLinkedListNode.cpp"
 #include "DLinkedList.hpp"
 
-#define DLINKED_LIST
+#include "Platform.cpp"
+
+#ifdef LINUX
+#include "DLinkedListNode.cpp"
+#endif
+#ifdef WINDOWS
+#include "DLinkedListNode.cpp"
+#endif
+
 
 template<class T>
 DLinkedList<T>::DLinkedList()
